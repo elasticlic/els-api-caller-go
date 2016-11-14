@@ -10,7 +10,7 @@ import (
 var _ = Describe("Access Key Test Suite", func() {
 
 	var (
-		id         = AccessKeyId("id")
+		id         = AccessKeyID("id")
 		sac        = SecretAccessKey("sac")
 		isValid    bool
 		email      string = "example@test.com"
@@ -25,7 +25,7 @@ var _ = Describe("Access Key Test Suite", func() {
 	Describe("AccessKey", func() {
 		BeforeEach(func() {
 			sut = &AccessKey{
-				Id:              id,
+				ID:              id,
 				SecretAccessKey: sac,
 				ExpiryDate:      nearFuture,
 				Email:           email,

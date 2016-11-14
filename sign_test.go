@@ -19,9 +19,9 @@ import (
 var _ = Describe("Sign Test Suite", func() {
 
 	var (
-		keyId           string          = "accessKeyId"
+		keyID           string          = "AccessKeyID"
 		sac             string          = "secretAccessKey"
-		accessKeyId     AccessKeyId     = AccessKeyId(keyId)
+		AccessKeyID     AccessKeyID     = AccessKeyID(keyID)
 		secretAccessKey SecretAccessKey = SecretAccessKey(sac)
 		email           string          = "example@test.com"
 		sut             *APISigner
@@ -60,7 +60,7 @@ var _ = Describe("Sign Test Suite", func() {
 			h := hmac.New(sha256.New, []byte(sac))
 			h.Write([]byte(ss))
 			hStr := base64.StdEncoding.EncodeToString(h.Sum(nil))
-			a := "ELS " + keyId + ":" + hStr
+			a := "ELS " + keyID + ":" + hStr
 			return a
 		}
 	)
@@ -69,7 +69,7 @@ var _ = Describe("Sign Test Suite", func() {
 		t = now
 		vPrefix = "/1.0"
 		k = &AccessKey{
-			Id:              accessKeyId,
+			ID:              AccessKeyID,
 			SecretAccessKey: secretAccessKey,
 			ExpiryDate:      future,
 			Email:           email,

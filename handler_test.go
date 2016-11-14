@@ -149,7 +149,7 @@ var _ = Describe("APIHandler Test Suite", func() {
 					Expect(err).To(BeNil())
 					Expect(statusCode).To(Equal(201))
 					Expect(k).NotTo(BeNil())
-					Expect(k.Id).To(Equal(AccessKeyId("anAccessKey")))
+					Expect(k.ID).To(Equal(AccessKeyID("anAccessKey")))
 					Expect(k.SecretAccessKey).To(Equal(SecretAccessKey("aSecretAccessKey")))
 					Expect(k.Email).To(Equal("user@example.com"))
 					eT, _ := time.Parse(time.RFC3339, "2100-01-01T00:00:00Z")

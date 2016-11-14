@@ -1,6 +1,6 @@
-# els-go-api-sdk
+# els-api-sdk-go
 A collection of utilities written in Go for making API calls to the
-Elastic Licensing Service (ELS)
+Elastic Licensing Service (ELS).
 
 ## Introduction
 All API calls must be 'ELS-signed' - I.e. they must have an **Authorization**
@@ -17,7 +17,7 @@ permissions.
 Access Keys are obtained from the ELS for a specific user and contain
 (among other things) the following information:
 
-**AccessKeyId** - a public string which forms part of the Authorization header
+**Access Key ID** - a public string which forms part of the Authorization header
 in ELS-signed requests.
 
 **Secret Access Key** - a secret string which is used to generate the signature
