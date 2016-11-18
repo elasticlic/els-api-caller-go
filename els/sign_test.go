@@ -94,6 +94,7 @@ var _ = Describe("Sign Test Suite", func() {
 			})
 		})
 	})
+
 	Describe("APISigner", func() {
 		BeforeEach(func() {
 			body = bodyBuffer
