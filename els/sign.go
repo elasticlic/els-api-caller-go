@@ -115,9 +115,9 @@ func (s *APISigner) Sign(r *http.Request, now time.Time) error {
 
 	auth := strings.Join([]string{"ELS ", string(k.ID), ":", hStr}, "")
 
-	r.Header.Add("Authorization", auth)
-	r.Header.Add("X-Els-Date", utcStr)
-	r.Header.Add("Content-Type", RequiredContentType)
+	r.Header.Set("Authorization", auth)
+	r.Header.Set("X-Els-Date", utcStr)
+	r.Header.Set("Content-Type", RequiredContentType)
 
 	log.WithFields(log.Fields{"Time": time.Now(), "fp": fingerprint, "auth": auth, "utcStr": utcStr}).Debug("Signer: sign")
 
