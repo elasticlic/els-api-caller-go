@@ -30,6 +30,11 @@ type AccessKey struct {
 	Email string `json:"emailAddress"`
 }
 
+// IsSet returns true if the AccessKey is fully-configured (i.e. ready to use).
+func (a *AccessKey) IsSet() bool {
+	return (a.ID) != "" && (a.SecretAccessKey) != "" && (a.Email != "")
+}
+
 // ValidUntil returns true if the access key has not expired and will not do so
 // within the given duration from now.
 func (a *AccessKey) ValidUntil(now time.Time, in time.Duration) bool {

@@ -58,13 +58,17 @@ func NewAPIHandler(c *http.Client) *APIHandler {
 // the credentials passed. An AccessKey is used by a Signer to sign all ELS API
 // calls. The credentials must match that of an existing user in the ELS.
 // expiryDays determines after how many days the newly-generated access key
-// should expire. If the context is cancelled or times out then ctx.Err() will
-// be returned. If there is a response from the server but the http status code
-// is not 201 (created), then an error will be returned and statusCode will
-// indicate the statuscode received.
+// should expire. If 0, then the access key does not expire. If the context is
+// cancelled or times out then ctx.Err() will be returned. If there is a
+// response from the server but the http status code is not 201 (created), then
+// an error will be returned and statusCode will indicate the statuscode received.
 func (h *APIHandler) CreateAccessKey(ctx context.Context, emailAddress string, password string, pwPrehashed bool, expiryDays uint) (a *AccessKey, statusCode int, err error) {
 
-	url := h.urlPrefix() + "/users/" + emailAddress + "/accessKeys?expires=1&numDaysTillExpiry=" + strconv.Itoa(int(expiryDays))
+	url := h.urlPrefix() + "/users/" + emailAddress + "/accessKeys"
+
+	if expiryDays != 0 {
+		url = url + "?expires=1&numDaysTillExpiry=" + strconv.Itoa(int(expiryDays))
+	}
 
 	req, err := http.NewRequest("POST", url, nil)
 	if err != nil {

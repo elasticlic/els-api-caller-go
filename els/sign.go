@@ -16,7 +16,6 @@ import (
 	log "github.com/Sirupsen/logrus"
 )
 
-// Consts defining default endpoint properties.
 const (
 	DefaultAPIScheme    = "https"
 	DefaultAPIDomain    = "api.elasticlicensing.com"
@@ -24,7 +23,6 @@ const (
 	RequiredContentType = "application/json;charset=utf-8"
 )
 
-// SDK usage errors.
 var (
 	ErrNoAccessKey       = errors.New("No Access Key")
 	ErrNoRequest         = errors.New("No Request")
@@ -49,11 +47,15 @@ type APISigner struct {
 	accessKey *AccessKey
 }
 
-// NewAPISigner returns an APISigner, used to ELS-sign http requests.
 func NewAPISigner(k *AccessKey) (a *APISigner, err error) {
 	if k == nil {
 		return nil, ErrNoAccessKey
 	}
+
+	if !k.IsSet() {
+		return nil, ErrInvalidAccessKey
+	}
+
 	a = &APISigner{
 		accessKey: k,
 	}

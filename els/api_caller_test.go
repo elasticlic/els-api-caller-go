@@ -33,6 +33,10 @@ func (d *DummySigner) Sign(r *http.Request, now time.Time) error {
 	return d.ErrToReturn
 }
 
+var _ = Describe("HTTPResponse Suite", func() {
+
+})
+
 var _ = Describe("ApiCaller Suite", func() {
 
 	var (
