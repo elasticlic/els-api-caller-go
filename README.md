@@ -3,15 +3,13 @@ A collection of utilities written in Go for making API calls to the
 Elastic Licensing Service (ELS).
 
 ## Introduction
-All API calls must be 'ELS-signed' - I.e. they must have an **Authorization**
-header which begins "ELS ". The content of the Authorization header is derived
-from properties within an **Access Key** as well as other properties of the
-request - e.g. the time sent, the content and the URL used.
+All API calls must be [ELS-signed](https://docs.elasticlicensing.com/basics/api/els-signing).
 
 In order to make API calls to the ELS from your own systems, you will need to
-acquire an access key for a user which has permission to make the API calls you
-wish to make. Use the ELS dashboard to manage users and their access
-permissions.
+acquire an [Access Key](https://docs.elasticlicensing.com/basics/api/access-key)
+for a user which has permission to make the API calls you wish to make.
+Use the [ELS dashboard](https://dashboards.elasticlicensing.com) to manage users
+and their access permissions.
 
 ### Access Key
 Access Keys are obtained from the ELS for a specific user and contain
@@ -24,20 +22,39 @@ in ELS-signed requests.
 part of the authorization header in ELS-signed requests.
 
 ### Obtaining an Access Key
-Use the ApiHandler.CreateAccessKey() method.
 
-### Signing a request
-First, create an ApiSigner with an Access Key you've retrieved with
-CreateAccessKey(). Then call ApiSigner.Sign(), passing your http.Request and
-the current time. (The current time is always injected in order to help with
-testing).
+Use the `APICaller.CreateAccessKey()` method. This method is provided as part of
+the `APIUtils` interface (see `handler.go`).
 
+### Signing and Sending a Request
+
+Assuming you've created an `http.Request` object defining your request, use
+`APICaller.Do()`.
+
+Alternatively, if you wish to make a **GET** request to a URL, use `APICaller.Get()`
+
+In both cases, a *profile* containing the Access Key should be passed.
+
+For an example, see the implementation of the [els-cli](https://github.com/elasticlic/els-cli).
+
+
+### Signing a request without Sending
+
+Use `NewAPISigner(k *AccessKey)` to create a new APISigner which will sign
+http.Requests with the given access key `k`.
+
+Then use `APISigner.Sign(r *http.Request)` to sign request `r`.
+
+**IMPORTANT**:
+
+The request should be sent immediately after signing as the signature will
+expire within a few minutes of the signature being generated.
 
 ## Troubleshooting
 
-An API call will be rejected by the ELS if the time you pass with now() is not
-close to the real time (as reported by time.Time()).
+Common reasons for failure:
 
-An API call will also be rejected if the user to which the access key belongs
-does not have permission to make the specific API call being attempted. You can
-manage permissions for users using the ELS dashboards.
+1. The time used in the signature is not accurate.
+2. A request is signed but not sent till much later.
+3. The user which the Access Key was generated for does not have permission to
+make the API call.
