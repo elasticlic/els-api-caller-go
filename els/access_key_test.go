@@ -25,6 +25,11 @@ var _ = Describe("Access Key Test Suite", func() {
 	Describe("AccessKey", func() {
 
 		BeforeEach(func() {
+			now = time.Now()
+			past = now.Add(-1 * time.Second)
+			near = time.Minute
+			nearFuture = now.Add(near)
+			in = time.Minute
 			sut = &AccessKey{
 				ID:              id,
 				SecretAccessKey: sac,
@@ -42,6 +47,22 @@ var _ = Describe("Access Key Test Suite", func() {
 				})
 				It("returns false", func() {
 					Expect(bResult).To(BeFalse())
+				})
+			})
+			Context("The key will expire in the near future", func() {
+				BeforeEach(func() {
+					sut.ExpiryDate = nearFuture
+				})
+				It("returns false", func() {
+					Expect(bResult).To(BeFalse())
+				})
+			})
+			Context("The key will not expire in the near future", func() {
+				BeforeEach(func() {
+					sut.ExpiryDate = now.Add(near + time.Second)
+				})
+				It("returns true", func() {
+					Expect(bResult).To(BeTrue())
 				})
 			})
 		})
