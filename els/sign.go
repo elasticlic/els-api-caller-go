@@ -52,7 +52,7 @@ func NewAPISigner(k *AccessKey) (a *APISigner, err error) {
 		return nil, ErrNoAccessKey
 	}
 
-	if !k.IsSet() {
+	if !k.CanSign() {
 		return nil, ErrInvalidAccessKey
 	}
 

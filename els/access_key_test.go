@@ -66,11 +66,11 @@ var _ = Describe("Access Key Test Suite", func() {
 				})
 			})
 		})
-		Describe("IsSet", func() {
+		Describe("CanSign", func() {
 			JustBeforeEach(func() {
-				bResult = sut.IsSet()
+				bResult = sut.CanSign()
 			})
-			Context("The Key is fully configured", func() {
+			Context("The Key is has an ID and Secret AccessKey", func() {
 				It("returns false", func() {
 					Expect(bResult).To(BeTrue())
 				})
@@ -86,14 +86,6 @@ var _ = Describe("Access Key Test Suite", func() {
 			Context("The SecretAccessKey is not set", func() {
 				BeforeEach(func() {
 					sut.SecretAccessKey = ""
-				})
-				It("returns false", func() {
-					Expect(bResult).To(BeFalse())
-				})
-			})
-			Context("The Email Address is not set", func() {
-				BeforeEach(func() {
-					sut.Email = ""
 				})
 				It("returns false", func() {
 					Expect(bResult).To(BeFalse())

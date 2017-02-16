@@ -30,9 +30,9 @@ type AccessKey struct {
 	Email string `json:"emailAddress"`
 }
 
-// IsSet returns true if the AccessKey is fully-configured (i.e. ready to use).
-func (a *AccessKey) IsSet() bool {
-	return (a.ID) != "" && (a.SecretAccessKey) != "" && (a.Email != "")
+// CanSign returns true if the AccessKey is able to sign an API Request.
+func (a *AccessKey) CanSign() bool {
+	return (a.ID) != "" && (a.SecretAccessKey) != ""
 }
 
 // ValidUntil returns true if the access key has not expired and will not do so

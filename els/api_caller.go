@@ -95,6 +95,7 @@ func (a *EDAPICaller) LastTimeout() time.Time {
 // want the API call to be ELS-signed. Pass false as isELSAPI if the request
 // is a call to a third-party API.
 func (a *EDAPICaller) Do(ctx context.Context, r *http.Request, s Signer, isELSAPI bool) (*http.Response, error) {
+
 	cancel := func() {}
 	if ctx == nil {
 		ctx, cancel = context.WithTimeout(context.Background(), a.requestTimeout)
@@ -111,7 +112,7 @@ func (a *EDAPICaller) Do(ctx context.Context, r *http.Request, s Signer, isELSAP
 	// ELS-Sign the request
 	if s != nil {
 		if err := s.Sign(r, a.tp.Now()); err != nil {
-			log.WithFields(log.Fields{"Time": time.Now()}).Debug("ApiCaller: Failed to sign")
+			log.WithFields(log.Fields{"Time": time.Now(), "err": err}).Debug("ApiCaller: Failed to sign")
 			return nil, err
 		}
 	}
