@@ -58,3 +58,17 @@ Common reasons for failure:
 2. A request is signed but not sent till much later.
 3. The user which the Access Key was generated for does not have permission to
 make the API call.
+
+
+# Versions
+
+## Creating new versions
+We're using [git flow](https://danielkummer.github.io/git-flow-cheatsheet/).
+
+
+## Version History
+
+### 1.0.0
+*2017-06-21*
+
+* Updated to use Sirupsen Logrus 1.0.0 (breaking change - Sirupsen -> sirupsen)
