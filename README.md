@@ -66,3 +66,9 @@ make the API call.
 We're using [git flow](https://danielkummer.github.io/git-flow-cheatsheet/).
 
 
+## Version History
+
+### 1.0.0
+*2017-06-21*
+
+* Updated to use Sirupsen Logrus 1.0.0 (breaking change - Sirupsen -> sirupsen)
