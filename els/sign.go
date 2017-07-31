@@ -87,20 +87,28 @@ func (s *APISigner) Sign(r *http.Request, now time.Time) error {
 
 	ss := []string{r.Method, "\n"}
 
+	hasBody := false // Body might be empty but not nil
 	if r.Body != nil {
 		b, err := ioutil.ReadAll(r.Body)
 		if err != nil {
 			return err
 		}
-		d := md5.Sum(b)
-		md5s := hex.EncodeToString(d[:])
-		ss = append(ss, md5s, "\n")
-		ss = append(ss, RequiredContentType, "\n")
-		// As we've read the body, we have to put things back so that it can
-		// be read again when the request is eventually sent over the wire...
-		// See https://medium.com/@xoen/golang-read-from-an-io-readwriter-without-loosing-its-content-2c6911805361#.pd96yml71
-		r.Body = ioutil.NopCloser(bytes.NewBuffer(b))
-	} else {
+
+		if len(b) > 0 {
+			hasBody = true
+
+			d := md5.Sum(b)
+			md5s := hex.EncodeToString(d[:])
+			ss = append(ss, md5s, "\n")
+			ss = append(ss, RequiredContentType, "\n")
+			// As we've read the body, we have to put things back so that it can
+			// be read again when the request is eventually sent over the wire...
+			// See https://medium.com/@xoen/golang-read-from-an-io-readwriter-without-loosing-its-content-2c6911805361#.pd96yml71
+			r.Body = ioutil.NopCloser(bytes.NewBuffer(b))
+		}
+	}
+
+	if !hasBody {
 		ss = append(ss, "\n\n")
 	}
 
