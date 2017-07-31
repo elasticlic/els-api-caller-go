@@ -68,6 +68,13 @@ We're using [git flow](https://danielkummer.github.io/git-flow-cheatsheet/).
 
 ## Version History
 
+### 1.1.0
+*2017-07-31*
+
+Issues Fixed:
+
+* #2 | Signer: Incorrect signature for requests with non-nil empty bodies
+
 ### 1.0.0
 *2017-06-21*
 
