@@ -48,7 +48,7 @@ var _ = Describe("Sign Test Suite", func() {
 		expectedAuth = func() string {
 			ss := method + "\n"
 
-			if body != nil {
+			if body != nil && len(json) > 0 {
 				ss += fmt.Sprintf("%x\n", md5.Sum(json))
 				ss += "application/json;charset=utf-8\n"
 			} else {
@@ -108,7 +108,7 @@ var _ = Describe("Sign Test Suite", func() {
 				err = sut.Sign(r, now)
 			})
 
-			Context("The request has a body", func() {
+			Context("The request has a non-empty body", func() {
 				It("signs the request correctly and leaves the body intact", func() {
 					Expect(err).To(BeNil())
 					a := r.Header.Get("Authorization")
@@ -121,7 +121,23 @@ var _ = Describe("Sign Test Suite", func() {
 				})
 			})
 
-			Context("The request has no body", func() {
+			Context("The request has an empty body", func() {
+				BeforeEach(func() {
+					json = make([]byte, 0)
+					bodyBuffer = bytes.NewBuffer(json)
+					body = bodyBuffer
+					buildRequest()
+				})
+				It("signs the request correctly", func() {
+					Expect(err).To(BeNil())
+					a := r.Header.Get("Authorization")
+					Expect(a).To(Equal(expectedAuth()))
+					a = r.Header.Get("X-Els-Date")
+					Expect(a).To(Equal(utcStr))
+				})
+			})
+
+			Context("The request has a nil body", func() {
 				BeforeEach(func() {
 					body = nil
 					buildRequest()
