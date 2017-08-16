@@ -14,12 +14,12 @@ type SecretAccessKey string
 type AccessKey struct {
 	// Id is the public part of the access key which appears in the header of a
 	// signed request. This field is mandatory.
-	ID AccessKeyID `json:"accessKeyId"`
+	ID AccessKeyID `json:"accessKeyId,omitempty"`
 
 	// SecretAccessKey is the private part of the access key, known only by the
 	// holder of the Key and the ELS, and whose value is used in the signing
 	// process. This field is mandatory.
-	SecretAccessKey SecretAccessKey `json:"secretAccessKey"`
+	SecretAccessKey SecretAccessKey `json:"secretAccessKey,omitempty"`
 
 	// ExpiryDate is an optional time which, if set to the non-zero time,  is
 	// used to prevent use of the AccessKey to sign requests if it is known to
@@ -27,7 +27,7 @@ type AccessKey struct {
 	ExpiryDate time.Time `json:"expiryDt"`
 
 	// Email is the email address of the user to whom this access key belongs.
-	Email string `json:"emailAddress"`
+	Email string `json:"emailAddress,omitempty"`
 }
 
 // CanSign returns true if the AccessKey is able to sign an API Request.
