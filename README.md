@@ -68,6 +68,15 @@ We're using [git flow](https://danielkummer.github.io/git-flow-cheatsheet/).
 
 ## Version History
 
+### 1.1.1
+*2017-08-16*
+
+* Added 'omitempty' annotation for type AccessKey to reduce size of JSON
+produced from this struct. Note that AccessKey contains a time.Time (a struct)
+which cannot be omitted. The standard approach here is to turn the field into
+a *time.Time pointer, which can be omitted with 'omitempty' but this has a
+significant knock-on impact to users of AccessKey and so has not been changed.
+
 ### 1.1.0
 *2017-07-31*
 
