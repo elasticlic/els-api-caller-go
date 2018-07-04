@@ -65,6 +65,14 @@ var _ = Describe("Access Key Test Suite", func() {
 					Expect(bResult).To(BeTrue())
 				})
 			})
+			Context("The key never expires", func() {
+				BeforeEach(func() {
+					sut.ExpiryDate = time.Time{}
+				})
+				It("returns true", func() {
+					Expect(bResult).To(BeTrue())
+				})
+			})
 		})
 		Describe("CanSign", func() {
 			JustBeforeEach(func() {

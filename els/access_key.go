@@ -36,8 +36,9 @@ func (a *AccessKey) CanSign() bool {
 }
 
 // ValidUntil returns true if the access key has not expired and will not do so
-// within the given duration from now.
+// within the given duration from now. Note that if ExpiryDate is the zero value
+// time, this signifies "never expires".
 func (a *AccessKey) ValidUntil(now time.Time, in time.Duration) bool {
 
-	return (a.ExpiryDate != time.Time{}) && (a.ExpiryDate.Sub(now) > in)
+	return (a.ExpiryDate == time.Time{}) || (a.ExpiryDate.Sub(now) > in)
 }
